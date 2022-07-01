@@ -40,7 +40,7 @@ async def execute(ctx, params):
     user = utils.get_user_in_channel(name, vc)
 
     if not user:
-        return False, "Du kannst nur Nutzer aus deiner momentanen Crew (\"{}\") kicken.".format(name)
+        return False, "Du kannst nur Nutzer aus deiner momentanen Crew (\"{}\"'s Crew) kicken.".format(name)
     if user.id == utils.get_creator_id(settings, vc):
         return False, "Du kannst den Ersteller der Crew nicht kicken."
     if user == author:
