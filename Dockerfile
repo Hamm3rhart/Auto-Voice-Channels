@@ -9,7 +9,7 @@ RUN apt-get update &&\
     apt-get -y install curl unzip &&\
     curl https://codeload.github.com/hamm3rhart/Auto-Voice-Channels/zip/translate -o avc.zip &&\
     unzip avc.zip &&\
-    mv Auto-Voice-Channels-master AutoVoiceChannels &&\
+    mv Auto-Voice-Channels-translate AutoVoiceChannels &&\
     apt-get -y remove curl unzip &&\
     rm avc.zip 
     
