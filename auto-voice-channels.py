@@ -372,7 +372,7 @@ async def check_votekicks(client):
                 except Exception as e:
                     try:
                         await vk['message'].edit(
-                            content="‼ **Votekick** failed - A `{}` error was encountered.".format(
+                            content="‼ **Votekick** fehlgeschlagen - Ein `{}` Fehler ist aufgetreten.".format(
                                 type(e).__name__))
                     except discord.errors.NotFound:
                         continue
@@ -387,11 +387,11 @@ async def check_votekicks(client):
                 try:
                     await vk['message'].edit(content=(
                         "‼ **Votekick** ‼\n"
-                        "{} was **kicked** from {}'s channel{}.{}".format(
+                        "{} wurde aus {}'s Crew **entfernt**.{}".format(
                             vk['offender'].mention, vk['initiator'].mention,
                             ((", but could not be banned from the channel as I don't have the"
                               "*Manage     Roles* permission.") if not banned else ""),
-                            ("\nReason: **{}**".format(vk['reason']) if vk['reason'] else ""))
+                            ("\nBegründung: **{}**".format(vk['reason']) if vk['reason'] else ""))
                     ))
                 except discord.errors.NotFound:
                     continue
@@ -407,8 +407,8 @@ async def check_votekicks(client):
 
                 try:
                     await vk['message'].edit(
-                        content="‼ **Votekick** timed out: Insufficient votes received "
-                                "({0}/{1}), required: {2}/{1}.".format(in_favor,
+                        content="‼ **Votekick** abgelaufen: Nicht genügent Stimmen abgegeben "
+                                "({0}/{1}), nötig waren: {2}/{1}.".format(in_favor,
                                                                        len(vk['participants']) + 1,
                                                                        vk['required_votes']))
                 except discord.errors.NotFound:
@@ -447,9 +447,9 @@ async def create_join_channels(client):
             to_remove.append(pc)
             try:
                 await pcv['text_channel'].send(
-                    ":warning: {} For some reason I was unable to create your \"⇩ Join\" channel, please try again later. "
-                    "Your channel is still private, but there's now no way for anyone to join you. "
-                    "Use `{}public` to make it public again."
+                    ":warning: {} Aus irgendeinem Grund war es mir nicht möglich deinen \"⇩ Join\" Kanal zu erstellen, bitte versuche es später nocheinmal. "
+                    "Deine Crew ist trotzdem Privat, aber keiner kann dir beitreten. :/ "
+                    "Schreibe `{}public` um sie wieder öffentlich zu machen."
                     "".format(pcv['creator'].mention, pcv['prefix']))
                 log("Failed to create join-channel, timed out.")
             except (discord.errors.Forbidden, discord.errors.NotFound):
@@ -482,7 +482,7 @@ async def create_join_channels(client):
                         to_remove.append(pc)
                         try:
                             await pcv['text_channel'].send(
-                                ":warning: {} I don't have permission to make the \"⇩ Join\" channel for you anymore."
+                                ":warning: {} Ich habe keine Berechtigungen mehr um einen \"⇩ Join\" Kanal für dich zu erstellen. :("
                                 "".format(pcv['creator'].mention))
                         except:
                             log("Failed to create join-channel, and failed to notify {}".format(
@@ -493,7 +493,7 @@ async def create_join_channels(client):
                         to_remove.append(pc)
                         try:
                             await pcv['text_channel'].send(
-                                ":warning: {} I couldn't create the \"⇩ Join\" channel for you, Discord says: {}".format(pcv['creator'].mention, e.text))
+                                ":warning: {} Ich konnte den \"⇩ Join\" Kanal nicht erstellen, Discord sagt: {}".format(pcv['creator'].mention, e.text))
                         except:
                             log("Failed to create join-channel, and failed to notify {}".format(
                                 creator))
@@ -519,7 +519,7 @@ async def create_join_channels(client):
                     except discord.errors.InvalidArgument as e:
                         try:
                             await pcv['text_channel'].send(
-                                ":warning: {} I couldn't move the \"⇩ Join\" channel to the right position, but it should still work. Discord says: {}".format(pcv['creator'].mention, e.text))
+                                ":warning: {} Ich konnte den \"⇩ Join\" Kanal nicht an die richtige Position verschieben, aber er sollte trotzdem funktionieren. Discord sagt: {}".format(pcv['creator'].mention, e.text))
                         except:
                             log("Failed to create join-channel, and failed to notify {}".format(
                                 creator))
@@ -1092,12 +1092,12 @@ async def on_reaction_add(reaction, user):
                     await j['requester'].move_to(j['vc'])
                 except discord.errors.Forbidden:
                     await j['msg'].edit(
-                        content=":warning: I don't have permission to move {} to **{}** :(".format(
+                        content=":warning: Ich habe keine Berechtigung um {} nach **{}** zu verschieben. :(".format(
                             j['requester'].mention, func.esc_md(j['vc'].name)
                         ))
                 except discord.errors.HTTPException as e:
                     await j['msg'].edit(
-                        content=":warning: Unable to move {} to {}'s channel ({})".format(
+                        content=":warning: Das Verschieben von {} nach {}'s Crew ({}) ist fehlgeschlagen".format(
                             j['requester'].mention, j['creator'].mention, e.text
                         ))
                 else:
@@ -1112,7 +1112,7 @@ async def on_reaction_add(reaction, user):
                     pass
                 else:
                     await j['msg'].edit(
-                        content="Sorry {}, your request to join {} was denied.".format(
+                        content="Entschuldige {}, deine Anfrage zum beitreten von {} wurde abgelehnt.".format(
                             j['requester'].mention, j['creator'].mention
                         ))
                 if reaction.emoji == '⛔':
@@ -1120,7 +1120,7 @@ async def on_reaction_add(reaction, user):
                         await j['jc'].set_permissions(j['requester'], connect=False)
                     except Exception as e:
                         await j['msg'].edit(
-                            content="{}\nFailed to block user ({}).".format(j['msg'].content,
+                            content="{}\nDas blocken von ({}) ist fehlgeschlagen.".format(j['msg'].content,
                                                                             type(e).__name__))
             if reacted:
                 to_delete.append(uid)
@@ -1207,10 +1207,10 @@ async def on_voice_state_update(member, before, after):
             if msg_channel and creator and vc:
                 try:
                     m = await msg_channel.send(
-                        "Hey {},\n{} would like to join your private voice channel. React with:\n"
-                        "• ✅ to **allow**.\n"
-                        "• ❌ to **deny** this time.\n"
-                        "• ⛔ to deny and **block** future requests from them.".format(
+                        "Hey {},\n{} möchte gerne deiner Crew beitreten. Reagiere mit:\n"
+                        "• ✅ zum **erlauben**.\n"
+                        "• ❌ zum **verbieten**.\n"
+                        "• ⛔ zum **verbieten** und dem Nutzter zukünftige Anfragen zu verwehren.".format(
                             creator.mention, member.mention
                         )
                     )
