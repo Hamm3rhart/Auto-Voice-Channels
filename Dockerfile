@@ -7,7 +7,7 @@ ENV AWS=false
 
 RUN apt-get update &&\
     apt-get -y install curl unzip &&\
-    curl https://codeload.github.com/hamm3rhart/Auto-Voice-Channels/zip/master -o avc.zip &&\
+    curl https://codeload.github.com/hamm3rhart/Auto-Voice-Channels/zip/translate -o avc.zip &&\
     unzip avc.zip &&\
     mv Auto-Voice-Channels-master AutoVoiceChannels &&\
     apt-get -y remove curl unzip &&\
