@@ -47,10 +47,10 @@ CONFIG_JSON
 
 if [ "$AWS" = "false" ];
 then
-python ./auto-voice-channels.py
+python3 ./auto-voice-channels.py
 elif [ "$AWS" = "true" ]
 then
-python ./heartbeat.py & python ./auto-voice-channels.py
+python ./heartbeat.py & python3 ./auto-voice-channels.py
 else
 echo "AWS must be true or false"
 fi
