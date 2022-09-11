@@ -5,8 +5,8 @@ ENV HEARTBEAT_TIMEOUT=60
 ENV RDY_MESSAGE=false
 ENV AWS=false
 
-RUN apt-get update &&\
-    apt-get upgrade &&\
+RUN apt-get update -y &&\
+    apt-get upgrade -y &&\
     apt-get -y install curl unzip &&\
     curl https://codeload.github.com/hamm3rhart/Auto-Voice-Channels/zip/master -o avc.zip &&\
     unzip avc.zip &&\
