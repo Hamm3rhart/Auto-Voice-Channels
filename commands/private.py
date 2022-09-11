@@ -27,8 +27,8 @@ async def execute(ctx, params):
         for s, sv in pv['secondaries'].items():
             if s == vc.id:
                 if 'priv' in sv and sv['priv']:
-                    return False, ("Deine Crew ist schon privat. "
-                                   "Schreibe `{}public` um sie wieder öffentlich zu machen.".format(ctx['print_prefix']))
+                    return False, ("Your channel is already private. "
+                                   "Use `{}public` to make it public again.".format(ctx['print_prefix']))
                 try:
                     await vc.set_permissions(author, connect=True)
                     await vc.set_permissions(guild.default_role, connect=False)
@@ -47,13 +47,13 @@ async def execute(ctx, params):
                     'request_time': time(),
                     'prefix': ctx['print_prefix'],
                 }
-                return True, ("Deine Crew ist jetzt Privat!\n"
-                              "Ein \"**⇩ Join {}**\" Kanal wird über dir erscheinen. "
-                              "Um deiner Crew beizutreten muss man zuerst diesem Kanal beitreten, "
-                              "dann werde ich hier dich nach Erlaubnis fragen, ob der Nutzter beitreten darf.\n"
-                              "Schreibe `{}public` um deine Crew wieder öffentlich zu machen."
+                return True, ("Your channel is now private!\n"
+                              "A \"**⇩ Join {}**\" channel will appear above your one shortly. "
+                              "When someone enters this channel to request to join you, "
+                              "I'll send a message here asking you to approve or deny their request.\n"
+                              "Use `{}public` to make it public again."
                               "".format(func.esc_md(author.display_name), ctx['print_prefix']))
-    return False, "Es scheint als wärst du in keiner Crew."
+    return False, "It doesn't seem like you're in a voice channel anymore."
 
 
 command = Cmd(

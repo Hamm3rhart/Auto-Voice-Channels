@@ -21,8 +21,8 @@ async def execute(ctx, params):
         for s, sv in pv['secondaries'].items():
             if s == vc.id:
                 if 'priv' not in sv or not sv['priv']:
-                    return False, ("Deine Crew ist schon öffentlich. "
-                                   "Schreibe `{}private` um sie privat zu machen.".format(ctx['print_prefix']))
+                    return False, ("Your channel is already public. "
+                                   "Use `{}private` to make it private instead.".format(ctx['print_prefix']))
                 try:
                     await vc.set_permissions(guild.default_role, connect=True)
                 except discord.errors.Forbidden:
@@ -42,9 +42,9 @@ async def execute(ctx, params):
                     if jc:
                         await jc.delete()
                 except discord.errors.Forbidden:
-                    return False, "Deine Crew ist wieder öffentlich, aber ich kann deinen **⇩ Join** Kanal nicht löschen :/."
-                return True, "Deine Crew ist wieder öffentlich!"
-    return False, "Es scheint als wärst du nicht in einer Crew."
+                    return False, "You channel is now public, but I'm not allowed to delete your **⇩ Join** channel."
+                return True, "Your channel is now public!"
+    return False, "It doesn't seem like you're in a voice channel anymore."
 
 
 command = Cmd(

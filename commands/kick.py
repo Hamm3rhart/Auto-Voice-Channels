@@ -40,26 +40,26 @@ async def execute(ctx, params):
     user = utils.get_user_in_channel(name, vc)
 
     if not user:
-        return False, "Du kannst nur Nutzer aus deiner momentanen Crew (\"{}\"'s Crew) kicken.".format(name)
+        return False, "Can't find any user in your channel with the name \"{}\".".format(name)
     if user.id == utils.get_creator_id(settings, vc):
-        return False, "Du kannst den Ersteller der Crew nicht kicken."
+        return False, "You cannot kick the creator of this channel."
     if user == author:
-        return False, "Bitte kick dich nicht selber :frowning:"
+        return False, "Please don't kick yourself :frowning:"
 
     participants = [m for m in vc.members if m not in [author, user] and not m.bot]
     required_votes = floor((len(participants) + 1) / 2) + 1
     try:
         text = (
             "‼ **Votekick** ‼\n"
-            "{initiator} startet einen Votekick gegen {offender}.{reason}\n\n"
-            "{participants}:\nReagiere mit ✅ um für **Ja** zu stimmen, {offender} zu kicken, "
-            "oder ignoriere diese Nachricht um für **Nein** zu stimmen.\n\n"
-            "Du hast **2 Minuten** Zeit um abzustimmen. Für eine Erfolgreiche abstimmung ist eine Ratio von {req} zu {tot} notwendig.\n"
-            "{initiator} deine Stimme wurde automatisch gezählt. Es werden nur die Stimmen der Anwesenden in der Crew gewertet."
+            "{initiator} has initiated a votekick against {offender}.{reason}\n\n"
+            "{participants}:\nVote by reacting with ✅ to kick {offender}, "
+            "or ignore this message to vote **No**.\n\n"
+            "You have **2 minutes** to vote. A majority vote ({req}/{tot}) is required.\n"
+            "{initiator} your vote is automatically counted. Votes by users not in your channel will be ignored."
             "".format(
                 initiator=author.mention,
                 offender=user.mention,
-                reason=(" Begründung: **{}**".format(reason) if reason else ""),
+                reason=(" Reason: **{}**".format(reason) if reason else ""),
                 participants=' '.join([m.mention for m in participants]),
                 req=required_votes,
                 tot=len(participants) + 1
